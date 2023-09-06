@@ -1,0 +1,15 @@
+{
+  "contractName": "EdubukeSeal",
+  "entrypoints": {
+    "getFile": {
+      "error": "FQUAAAALAAAAUGFyc2VQYXJhbXMCBwAAAExvZ0Z1bGwCDAAAAExvZ01hbGZvcm1lZAILAAAAT25seUFjY291bnQCEQAAAEFscmVhZHlSZWdpc3RlcmVkAg==",
+      "parameter": "HiAAAAA=",
+      "returnValue": "FQIAAAAEAAAATm9uZQIEAAAAU29tZQEBAAAAFAACAAAACQAAAHRpbWVzdGFtcA0HAAAAd2l0bmVzcws="
+    },
+    "registerFile": {
+      "error": "FQUAAAALAAAAUGFyc2VQYXJhbXMCBwAAAExvZ0Z1bGwCDAAAAExvZ01hbGZvcm1lZAILAAAAT25seUFjY291bnQCEQAAAEFscmVhZHlSZWdpc3RlcmVkAg==",
+      "parameter": "HiAAAAA="
+    }
+  },
+  "event": "FQEAAAAMAAAAUmVnaXN0cmF0aW9uAQEAAAAUAAMAAAAJAAAAZmlsZV9oYXNoHiAAAAAHAAAAd2l0bmVzcwsJAAAAdGltZXN0YW1wDQ=="
+}
