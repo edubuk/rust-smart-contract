@@ -1,4 +1,4 @@
-//! A contract implementing an EdubukeSeal service.
+//! A contract implementing an tSeal service.
 //!
 //! If you seal a file, you can prove that it was in your possession at the time
 //! of sealing. The dApp flow will be:
@@ -114,8 +114,8 @@ pub struct RegistrationEvent {
     timestamp: Timestamp,
 }
 
-/// Init function that creates this EdubukeSeal smart contract.
-#[init(contract = "EdubukeSeal", event = "Event")]
+/// Init function that creates this tSeal smart contract.
+#[init(contract = "tSeal", event = "Event")]
 fn contract_init<S: HasStateApi>(
     _ctx: &impl HasInitContext,
     state_builder: &mut StateBuilder<S>,
@@ -130,7 +130,7 @@ fn contract_init<S: HasStateApi>(
 /// - If the file hash has already been registered.
 /// - If a smart contract tries to register the file hash.
 #[receive(
-    contract = "EdubukeSeal",
+    contract = "tSeal",
     name = "registerFile",
     parameter = "HashSha2256",
     error = "ContractError",
@@ -178,7 +178,7 @@ fn register_file<S: HasStateApi>(
 /// It rejects if:
 /// - It fails to parse the parameter.
 #[receive(
-    contract = "EdubukeSeal",
+    contract = "tSeal",
     name = "getFile",
     parameter = "HashSha2256",
     error = "ContractError",
