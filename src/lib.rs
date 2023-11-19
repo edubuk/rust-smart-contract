@@ -48,10 +48,12 @@ impl From<LogError> for ContractError {
 /// The state tracked for each file.
 #[derive(Serial, Deserial, Clone, Copy, SchemaType)]
 struct FileState {
+    // The filehash of the file registered
+    file_hash: HashSha2256,
     /// The timestamp when this file hash was registered.
     timestamp: Timestamp,
     /// The witness (sender_account) that registered this file hash.
-    witness:   AccountAddress,
+    witness: AccountAddress,
 }
 
 /// The contract state.
@@ -84,10 +86,14 @@ impl<S: HasStateApi> State<S> {
 
     /// Add a new file hash (replaces existing file if present).
     fn add_file(&mut self, file_hash: HashSha2256, timestamp: Timestamp, witness: AccountAddress) {
-        self.files.insert(file_hash, FileState {
-            timestamp,
-            witness,
-        });
+        self.files.insert(
+            file_hash,
+            FileState {
+                file_hash,
+                timestamp,
+                witness,
+            },
+        );
     }
 }
 
@@ -103,7 +109,7 @@ pub struct RegistrationEvent {
     /// Hash of the file to be registered by the witness (sender_account).
     file_hash: HashSha2256,
     /// Witness (sender_account) that registered the above file hash.
-    witness:   AccountAddress,
+    witness: AccountAddress,
     /// Timestamp when this file hash was registered in the smart contract.
     timestamp: Timestamp,
 }
@@ -145,12 +151,16 @@ fn register_file<S: HasStateApi>(
     let file_hash: HashSha2256 = ctx.parameter_cursor().get()?;
 
     // Ensure that the file hash hasn't been registered so far.
-    ensure!(!host.state().file_exists(&file_hash), ContractError::AlreadyRegistered);
+    ensure!(
+        !host.state().file_exists(&file_hash),
+        ContractError::AlreadyRegistered
+    );
 
     let timestamp = ctx.metadata().slot_time();
 
     // Register the file hash.
-    host.state_mut().add_file(file_hash, timestamp, sender_account);
+    host.state_mut()
+        .add_file(file_hash, timestamp, sender_account);
 
     // Log the event.
     logger.log(&Event::Registration(RegistrationEvent {
@@ -204,7 +214,10 @@ mod tests {
 
         // Check the state.
         let state = init_result.expect_report("Contract Initialization failed");
-        claim!(state.files.is_empty(), "No files present after initialization");
+        claim!(
+            state.files.is_empty(),
+            "No files present after initialization"
+        );
     }
 
     /// Test registering file hash.
@@ -232,11 +245,17 @@ mod tests {
         // Check the event.
         let event = Event::Registration(RegistrationEvent {
             file_hash: FILE_HASH,
-            witness:   ACCOUNT_0,
+            witness: ACCOUNT_0,
             timestamp: Timestamp::from_timestamp_millis(TIME),
         });
-        claim!(logger.logs.contains(&to_bytes(&event)), "should contain event");
-        claim!(host.state().file_exists(&FILE_HASH), "state should contain file");
+        claim!(
+            logger.logs.contains(&to_bytes(&event)),
+            "should contain event"
+        );
+        claim!(
+            host.state().file_exists(&FILE_HASH),
+            "state should contain file"
+        );
     }
 
     /// Test can not register a file hash twice.
@@ -264,11 +283,17 @@ mod tests {
         // Check the event.
         let event = Event::Registration(RegistrationEvent {
             file_hash: FILE_HASH,
-            witness:   ACCOUNT_0,
+            witness: ACCOUNT_0,
             timestamp: Timestamp::from_timestamp_millis(TIME),
         });
-        claim!(logger.logs.contains(&to_bytes(&event)), "should contain event");
-        claim!(host.state().file_exists(&FILE_HASH), "state should contain file");
+        claim!(
+            logger.logs.contains(&to_bytes(&event)),
+            "should contain event"
+        );
+        claim!(
+            host.state().file_exists(&FILE_HASH),
+            "state should contain file"
+        );
 
         // Try to register the file hash a second time.
         let result = register_file(&ctx, &mut host, &mut logger);
@@ -323,6 +348,10 @@ mod tests {
             Timestamp::from_timestamp_millis(TIME),
             "timestamp should match"
         );
-        claim_eq!(record.unwrap().witness, ACCOUNT_0, "witness account should match");
+        claim_eq!(
+            record.unwrap().witness,
+            ACCOUNT_0,
+            "witness account should match"
+        );
     }
 }
