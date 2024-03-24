@@ -3,6 +3,8 @@ making it significantly cheaper and faster for Universities and Employers to con
 
 Live Website with Product: https://www.edubukeseal.org/
 
+Front End of this website is hosted on Vercel here: https://vercel.com/edubuk/e-sealmainnet
+
 Edubuk eSeal Smart Contract Deployed and Initialized on Concordium Mainnet: 9387 
 Concordium Blockchain is a Layer 1 Blockchain, with ID/KYC solution for getting Concordium wallet and do any transaction (Layer 1 ID Solution). 
 The Blockchain is GDPR Compliant, CCPA Compliant and one of the most-regulatory friendly blockchains based out of Switzerland with a great team behind the project.
