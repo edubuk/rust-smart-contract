@@ -1,4 +1,4 @@
-/// Edubuk eSeal Smart Contract using Rust Language deployed on Concordium Blockchain
+/// Edubuk eSeal Smart Contract using Rust Language deployed on the Concordium Blockchain
 #![cfg_attr(not(feature = "std"), no_std)]
 use concordium_std::*;
 
